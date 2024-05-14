@@ -1,0 +1,26 @@
+<!-- src/app/repo-list/repo-list.component.html -->
+<div *ngIf="loading" class="flex justify-center">
+    <app-loader></app-loader>
+  </div>
+  <div *ngIf="!loading">
+    <div *ngIf="repos.length === 0" class="text-center">
+      No repositories found.
+    </div>
+    <div *ngFor="let repo of repos" class="border p-4 rounded mb-2">
+      <h2 class="text-xl font-bold">{{ repo.name }}</h2>
+      <p>{{ repo.description }}</p>
+      <div class="flex">
+        <span *ngFor="let topic of repo.topics" class="bg-gray-200 rounded px-2 py-1 mr-2">{{ topic }}</span>
+      </div>
+    </div>
+    <div class="flex justify-between items-center mt-4">
+      <select [(ngModel)]="perPage" (change)="fetchRepos()">
+        <option *ngFor="let size of [10, 20, 50, 100]" [value]="size">{{ size }}</option>
+      </select>
+      <div>
+        <button (click)="previousPage()" [disabled]="page === 1" class="bg-blue-500 text-white p-2 rounded mr-2">Previous</button>
+        <button (click)="nextPage()" class="bg-blue-500 text-white p-2 rounded">Next</button>
+      </div>
+    </div>
+  </div>
+  

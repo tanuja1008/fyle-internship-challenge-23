@@ -1,19 +1,26 @@
-import { HttpClient } from '@angular/common/http';
+// src/app/github.service.ts
 import { Injectable } from '@angular/core';
-import { tap, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ApiService {
+export class GithubService {
+  private baseUrl = 'https://api.github.com/users';
 
-  constructor(
-    private httpClient: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
-  getUser(githubUsername: string) {
-    return this.httpClient.get(`https://api.github.com/users/${githubUsername}`);
+  getUserRepos(username: string, page: number = 1, perPage: number = 10): Observable<any> {
+    const url = `${this.baseUrl}/${username}/repos?page=${page}&per_page=${perPage}`;
+    return this.http.get<any>(url).pipe(
+      map((data: any) => {
+        return {
+          repos: data,
+          totalCount: data.length // GitHub API doesn't provide total count in this endpoint
+        };
+      })
+    );
   }
-
-  // implement getRepos method by referring to the documentation. Add proper types for the return type and params 
 }

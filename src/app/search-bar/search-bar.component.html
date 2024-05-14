@@ -1,0 +1,13 @@
+<!-- src/app/search-bar/search-bar.component.html -->
+<div class="flex justify-center mt-4">
+    <input
+      type="text"
+      [(ngModel)]="username"
+      placeholder="Enter GitHub username"
+      class="border p-2 rounded"
+    />
+    <button (click)="search()" class="bg-blue-500 text-white p-2 rounded ml-2">
+      Search
+    </button>
+  </div>
+  
